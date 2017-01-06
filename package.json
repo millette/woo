@@ -1,0 +1,15 @@
+{
+  "name": "woo",
+  "version": "0.0.0",
+  "main": "do.js",
+  "license": "AGPL-v3",
+  "scripts": {
+    "start": "node do"
+  },
+  "dependencies": {
+    "btcaverage": "^0.0.8",
+    "dotenv-safe": "^4.0.2",
+    "got": "^6.7.1",
+    "lodash": "^4.17.4"
+  }
+}
