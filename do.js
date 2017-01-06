@@ -6,7 +6,7 @@ const got = require('got')
 const _ = require('lodash')
 
 const insert = (doc) =>
-  got.post('http://localhost:5993/markets', {
+  got.post(process.env.DB_URL, {
     json: true,
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(doc)
