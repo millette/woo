@@ -44,20 +44,25 @@ bcrypt-pbkdf@^1.0.0:
   dependencies:
     tweetnacl "^0.14.3"
 
+bluebird@^3.0.6:
+  version "3.4.7"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.7.tgz#f72d760be09b7f76d08ed8fae98b289a8d05fab3"
+
 boom@2.x.x:
   version "2.10.1"
   resolved "https://registry.yarnpkg.com/boom/-/boom-2.10.1.tgz#39c8918ceff5799f83f9492a848f625add0c766f"
   dependencies:
     hoek "2.x.x"
 
-btcaverage@^0.0.8:
+btcaverage@millette/btcaverage:
   version "0.0.8"
-  resolved "https://registry.yarnpkg.com/btcaverage/-/btcaverage-0.0.8.tgz#4e120154cd25a3bc53c9aa3b97d6b40fb04ad961"
+  resolved "https://codeload.github.com/millette/btcaverage/tar.gz/da0c4d287d67aa73686c2e02fd2e7698138e261d"
   dependencies:
     async "^0.9.0"
+    bluebird "^3.0.6"
+    lodash "^4.17.4"
     q "^1.1.2"
     request "^2.51.0"
-    smartaverage "0.0.2"
 
 capture-stack-trace@^1.0.0:
   version "1.0.0"
@@ -370,10 +375,6 @@ request@^2.51.0:
 safe-buffer@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.0.1.tgz#d263ca54696cd8a306b5ca6551e92de57918fbe7"
-
-smartaverage@0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/smartaverage/-/smartaverage-0.0.2.tgz#a22cbc9b72737aaacbd5b12a8a79c9939d2d7016"
 
 sntp@1.x.x:
   version "1.0.9"
