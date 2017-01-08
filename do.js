@@ -108,18 +108,20 @@ const wha = (x) => got(x, { json: true })
 const addLbtc = (x) => wha(x)
   .then((qq) => {
     const now = Date.now()
+    const dt = new Date(now).toISOString()
     return {
       _id: 'lbtc@' + Math.round(now / 1000),
-      ts: new Date(now).toISOString(),
+      ts: dt,
+      datetime: dt,
       ads: qq
     }
   })
   .then(insert)
   .catch(console.error)
 
-addPrices()
+// addPrices()
 xxx(xch)
 setInterval(addPrices, 300000)
 setInterval(xxx, 3600000, xch)
-setInterval(addLbtc, 900000, ulbtc)
+setInterval(addLbtc, 300000, ulbtc)
 addLbtc(ulbtc)
