@@ -5,6 +5,9 @@ const btcaverage = require('btcaverage')
 const got = require('got')
 const _ = require('lodash')
 
+const xch = `https://openexchangerates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
+const ulbtc = `https://localbitcoins.com/buy-bitcoins-with-cash/${process.env.ADS}/.json`
+
 const insert = (doc) =>
   got.post(process.env.DB_URL, {
     json: true,
@@ -12,6 +15,7 @@ const insert = (doc) =>
     body: JSON.stringify(doc)
   })
   .then((ret) => {
+    if (doc.ads) { return }
     if (doc.average) {
       return {
         ts: doc.datetime,
@@ -89,9 +93,33 @@ const xxx = (u) => got(u, { json: true })
   .then(report2)
   .catch(console.error)
 
-const xch = `https://openexchangerates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
+const wha = (x) => got(x, { json: true })
+  .then((res) =>
+    res.body.data.ad_list
+      .filter((ad) => parseFloat(ad.data.temp_price))
+      .map((ad) => ad.data)
+      .map((ad) => {
+        ad.temp_price = parseFloat(ad.temp_price)
+        ad.temp_price_usd = parseFloat(ad.temp_price_usd)
+        return _.pick(ad, ['temp_price', 'temp_price_usd', 'profile', 'ad_id'])
+      })
+  )
+
+const addLbtc = (x) => wha(x)
+  .then((qq) => {
+    const now = Date.now()
+    return {
+      _id: 'lbtc@' + Math.round(now / 1000),
+      ts: new Date(now).toISOString()
+      ads: qq
+    }
+  })
+  .then(insert)
+  .catch(console.error)
 
 addPrices()
 xxx(xch)
 setInterval(addPrices, 300000)
 setInterval(xxx, 3600000, xch)
+setInterval(addLbtc, 3600000, ulbtc)
+addLbtc(ulbtc)
