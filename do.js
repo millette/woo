@@ -5,8 +5,12 @@ const btcaverage = require('btcaverage')
 const got = require('got')
 const _ = require('lodash')
 
-const xch = `https://openexchangerates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
+const xch = `https://openExchangeRates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
 const ulbtc = `https://localbitcoins.com/buy-bitcoins-with-cash/${process.env.ADS}/.json`
+const minms = 60 * 1000
+const pricesInterval = 2.5 * minms
+const openExchangeRatesInterval = 60 * minms
+const lbtcInterval = 5 * minms
 
 const insert = (doc) =>
   got.post(process.env.DB_URL, {
@@ -78,7 +82,7 @@ const addPrices = () => btcaverage()
   .then(report)
   .catch(console.error)
 
-const xxx = (u) => got(u, { json: true })
+const openExchangeRates = (u) => got(u, { json: true })
   .then((x) => x.body)
   .then((body) => {
     const ts = body.timestamp
@@ -120,8 +124,10 @@ const addLbtc = (x) => wha(x)
   .catch(console.error)
 
 addPrices()
-xxx(xch)
-setInterval(addPrices, 300000)
-setInterval(xxx, 3600000, xch)
-setInterval(addLbtc, 300000, ulbtc)
+// openExchangeRates(xch)
 addLbtc(ulbtc)
+
+setInterval(addPrices, pricesInterval)
+setInterval(openExchangeRates, openExchangeRatesInterval, xch)
+setInterval(addLbtc, lbtcInterval, ulbtc)
+
