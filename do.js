@@ -119,7 +119,7 @@ const addLbtc = (x) => wha(x)
   .then(insert)
   .catch(console.error)
 
-// addPrices()
+addPrices()
 xxx(xch)
 setInterval(addPrices, 300000)
 setInterval(xxx, 3600000, xch)
