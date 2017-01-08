@@ -110,7 +110,7 @@ const addLbtc = (x) => wha(x)
     const now = Date.now()
     return {
       _id: 'lbtc@' + Math.round(now / 1000),
-      ts: new Date(now).toISOString()
+      ts: new Date(now).toISOString(),
       ads: qq
     }
   })
@@ -121,5 +121,5 @@ addPrices()
 xxx(xch)
 setInterval(addPrices, 300000)
 setInterval(xxx, 3600000, xch)
-setInterval(addLbtc, 3600000, ulbtc)
+setInterval(addLbtc, 900000, ulbtc)
 addLbtc(ulbtc)
