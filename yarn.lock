@@ -116,15 +116,15 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
 
-dotenv-safe@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/dotenv-safe/-/dotenv-safe-4.0.2.tgz#7d0c961c44948b76a8224798430a48a6cc9c09f8"
+dotenv-safe@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv-safe/-/dotenv-safe-4.0.3.tgz#3c98f69f6072f7b2d0df120a65add27ac2550029"
   dependencies:
-    dotenv "github:motdotla/dotenv#fdd0923e82e12a6e29b65898990201857141e75d"
+    dotenv "^4.0.0"
 
-"dotenv@github:motdotla/dotenv#fdd0923e82e12a6e29b65898990201857141e75d":
+dotenv@^4.0.0:
   version "4.0.0"
-  resolved "https://codeload.github.com/motdotla/dotenv/tar.gz/fdd0923e82e12a6e29b65898990201857141e75d"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
 duplexer3@^0.1.4:
   version "0.1.4"

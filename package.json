@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "btcaverage": "millette/btcaverage",
-    "dotenv-safe": "^4.0.2",
+    "dotenv-safe": "^4.0.3",
     "got": "^6.7.1",
     "lodash": "^4.17.4"
   }
