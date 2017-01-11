@@ -8,9 +8,9 @@ const _ = require('lodash')
 const xch = `https://openExchangeRates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
 const ulbtc = `https://localbitcoins.com/buy-bitcoins-with-cash/${process.env.ADS}/.json`
 const minms = 60 * 1000
-const pricesInterval = 2.5 * minms
+const pricesInterval = 4 * minms
 const openExchangeRatesInterval = 60 * minms
-const lbtcInterval = 5 * minms
+const lbtcInterval = 12 * minms
 
 const insert = (doc) =>
   got.post(process.env.DB_URL, {
@@ -124,7 +124,7 @@ const addLbtc = (x) => wha(x)
   .catch(console.error)
 
 addPrices()
-// openExchangeRates(xch)
+openExchangeRates(xch)
 addLbtc(ulbtc)
 
 setInterval(addPrices, pricesInterval)
