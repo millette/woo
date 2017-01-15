@@ -3,6 +3,7 @@
 require('dotenv-safe').load()
 const btcaverage = require('btcaverage')
 const got = require('got')
+const chalk = require('chalk')
 const _ = require('lodash')
 
 const xch = `https://openExchangeRates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
@@ -53,10 +54,16 @@ const report = (() => {
   let lastCb
   return (xx) => {
     const out = _.padStart(lastAvg ? (xx.avg - lastAvg).toFixed(3) : '', 8)
-    const out2 = _.padStart(lastCb ? (xx.cb - lastCb).toFixed(3) : '', 8)
+    const out2a = xx.cb - lastCb
+    const out2 = _.padStart(lastCb ? (out2a).toFixed(3) : '', 8)
     const avg = _.padStart(xx.avg.toFixed(3), 10)
     const cb = _.padStart(xx.cb.toFixed(3), 10)
-    console.log(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`)
+    // console.log(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`)
+    if (out2a < 0) {
+      console.log(chalk.red(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`))
+    } else {
+      console.log(chalk.green(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`))
+    }
     lastAvg = xx.avg
     lastCb = xx.cb
   }
@@ -67,10 +74,16 @@ const report2 = (() => {
   let lastBtc
   return (xx) => {
     const out = _.padStart(lastCad ? (xx.cad - lastCad).toFixed(3) : '', 8)
-    const out2 = _.padStart(lastBtc ? ((1 / xx.btc) - lastBtc).toFixed(3) : '', 8)
+    const out2a = (1 / xx.btc) - lastBtc
+    const out2 = _.padStart(lastBtc ? out2a.toFixed(3) : '', 8)
     const cad = _.padStart(xx.cad.toFixed(3), 10)
     const btc = _.padStart((1 / xx.btc).toFixed(3), 10)
-    console.log(`#2 ${xx.ts} ${btc} ${out2} ${cad} ${out}`)
+    // console.log(`#2 ${xx.ts} ${btc} ${out2} ${cad} ${out}`)
+    if (out2a < 0) {
+      console.log(chalk.red.bold(`#2 ${xx.ts} ${btc} ${out2} ${cad} ${out}`))
+    } else {
+      console.log(chalk.green.bold(`#2 ${xx.ts} ${btc} ${out2} ${cad} ${out}`))
+    }
     lastCad = xx.cad
     lastBtc = 1 / xx.btc
   }
@@ -123,8 +136,8 @@ const addLbtc = (x) => wha(x)
   .then(insert)
   .catch(console.error)
 
-addPrices()
 openExchangeRates(xch)
+addPrices()
 addLbtc(ulbtc)
 
 setInterval(addPrices, pricesInterval)
