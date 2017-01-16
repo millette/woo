@@ -50,7 +50,7 @@ const makeDoc = (prices) => {
 }
 
 const arrowed = (n) => {
-  if (n === 0) return 0
+  if (n === 0) return '0.000'
   let ret
   const a = Math.abs(n).toFixed(3)
   if (n > 0) {
@@ -161,7 +161,7 @@ const addLbtc = (x) => wha(x)
   .then(insert)
   .catch(console.error)
 
-// openExchangeRates(xch)
+openExchangeRates(xch)
 addPrices()
 addLbtc(ulbtc)
 
