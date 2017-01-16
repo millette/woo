@@ -52,7 +52,7 @@ const makeDoc = (prices) => {
 const arrowed = (n) => {
   if (n === 0) return 0
   let ret
-  const a = Math.abs(n)
+  const a = Math.abs(n).toFixed(3)
   if (n > 0) {
     if (a > 1) {
       ret = '⇈' + a
@@ -81,8 +81,8 @@ const report = (() => {
     const avg = _.padStart(xx.avg.toFixed(3), 10)
     const cb = _.padStart(xx.cb.toFixed(3), 10)
     // console.log(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`)
-    const out = _.padStart(lastAvg ? arrowed(outa.toFixed(3)) : '', 8)
-    const out2 = _.padStart(lastCb ? arrowed(out2a.toFixed(3)) : '', 8)
+    const out = _.padStart(lastAvg ? arrowed(outa) : '', 8)
+    const out2 = _.padStart(lastCb ? arrowed(out2a) : '', 8)
     if (out2a < 0 && outa < 0) {
       console.log(chalk.red(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`))
     } else if (out2a > 0 && outa > 0) {
@@ -99,9 +99,9 @@ const report2 = (() => {
   let lastCad
   let lastBtc
   return (xx) => {
-    const out = _.padStart(lastCad ? arrowed((xx.cad - lastCad).toFixed(3)) : '', 8)
+    const out = _.padStart(lastCad ? arrowed((xx.cad - lastCad)) : '', 8)
     const out2a = (1 / xx.btc) - lastBtc
-    const out2 = _.padStart(lastBtc ? arrowed(out2a.toFixed(3)) : '', 8)
+    const out2 = _.padStart(lastBtc ? arrowed(out2a) : '', 8)
     const cad = _.padStart(xx.cad.toFixed(3), 10)
     const btc = _.padStart((1 / xx.btc).toFixed(3), 10)
     if (out2a < 0) {
@@ -161,7 +161,7 @@ const addLbtc = (x) => wha(x)
   .then(insert)
   .catch(console.error)
 
-openExchangeRates(xch)
+// openExchangeRates(xch)
 addPrices()
 addLbtc(ulbtc)
 
