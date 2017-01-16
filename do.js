@@ -49,20 +49,46 @@ const makeDoc = (prices) => {
   return doc
 }
 
+const arrowed = (n) => {
+  if (n === 0) return 0
+  let ret
+  const a = Math.abs(n)
+  if (n > 0) {
+    if (a > 1) {
+      ret = '⇈' + a
+    } else {
+      ret = '↑' + a
+    }
+  } else {
+    if (a > 1) {
+      ret = '⇊' + a
+    } else {
+      ret = '↓' + a
+    }
+  }
+
+  return ret
+}
+
 const report = (() => {
   let lastAvg
   let lastCb
   return (xx) => {
-    const out = _.padStart(lastAvg ? (xx.avg - lastAvg).toFixed(3) : '', 8)
+    // let out
+    // let out2
+    const outa = xx.avg - lastAvg
     const out2a = xx.cb - lastCb
-    const out2 = _.padStart(lastCb ? (out2a).toFixed(3) : '', 8)
     const avg = _.padStart(xx.avg.toFixed(3), 10)
     const cb = _.padStart(xx.cb.toFixed(3), 10)
     // console.log(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`)
-    if (out2a < 0) {
+    const out = _.padStart(lastAvg ? arrowed(outa.toFixed(3)) : '', 8)
+    const out2 = _.padStart(lastCb ? arrowed(out2a.toFixed(3)) : '', 8)
+    if (out2a < 0 && outa < 0) {
       console.log(chalk.red(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`))
-    } else {
+    } else if (out2a > 0 && outa > 0) {
       console.log(chalk.green(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`))
+    } else {
+      console.log(chalk.yellow(`#1 ${xx.ts} ${avg} ${out} ${cb} ${out2}`))
     }
     lastAvg = xx.avg
     lastCb = xx.cb
@@ -73,12 +99,11 @@ const report2 = (() => {
   let lastCad
   let lastBtc
   return (xx) => {
-    const out = _.padStart(lastCad ? (xx.cad - lastCad).toFixed(3) : '', 8)
+    const out = _.padStart(lastCad ? arrowed((xx.cad - lastCad).toFixed(3)) : '', 8)
     const out2a = (1 / xx.btc) - lastBtc
-    const out2 = _.padStart(lastBtc ? out2a.toFixed(3) : '', 8)
+    const out2 = _.padStart(lastBtc ? arrowed(out2a.toFixed(3)) : '', 8)
     const cad = _.padStart(xx.cad.toFixed(3), 10)
     const btc = _.padStart((1 / xx.btc).toFixed(3), 10)
-    // console.log(`#2 ${xx.ts} ${btc} ${out2} ${cad} ${out}`)
     if (out2a < 0) {
       console.log(chalk.red.bold(`#2 ${xx.ts} ${btc} ${out2} ${cad} ${out}`))
     } else {
