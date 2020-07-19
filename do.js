@@ -1,5 +1,9 @@
 'use strict'
 
+// core
+const fs = require('fs')
+
+// npm
 require('dotenv-safe').load()
 const btcaverage = require('btcaverage')
 const got = require('got')
@@ -7,12 +11,13 @@ const chalk = require('chalk')
 const _ = require('lodash')
 
 const xch = `https://openExchangeRates.org/api/latest.json?app_id=${process.env.APP_ID}&show_experimental=1`
-const ulbtc = `https://localbitcoins.com/buy-bitcoins-with-cash/${process.env.ADS}/.json`
+// const ulbtc = `https://localbitcoins.com/buy-bitcoins-with-cash/${process.env.ADS}/.json`
 const minms = 60 * 1000
 const pricesInterval = 4 * minms
 const openExchangeRatesInterval = 60 * minms
 const lbtcInterval = 12 * minms
 
+/*
 const insert = (doc) =>
   got.post(process.env.DB_URL, {
     json: true,
@@ -34,6 +39,24 @@ const insert = (doc) =>
       btc: doc.usd.BTC
     }
   })
+*/
+
+const insert = (doc) => {
+    fs.writeFileSync(`point-${Math.round(Date.now() / 1000)}.json`, JSON.stringify(doc))
+    if (doc.ads) { return }
+    if (doc.average) {
+      return {
+        ts: doc.datetime,
+        avg: doc.average,
+        cb: doc.usd.coinbase
+      }
+    }
+    return {
+      ts: doc.datetime,
+      cad: doc.usd.CAD,
+      btc: doc.usd.BTC
+    }
+  }
 
 const makeDoc = (prices) => {
   const now = Date.now()
@@ -147,6 +170,7 @@ const wha = (x) => got(x, { json: true })
       })
   )
 
+/*
 const addLbtc = (x) => wha(x)
   .then((qq) => {
     const now = Date.now()
@@ -160,12 +184,13 @@ const addLbtc = (x) => wha(x)
   })
   .then(insert)
   .catch(console.error)
+*/
 
 openExchangeRates(xch)
 addPrices()
-addLbtc(ulbtc)
+// addLbtc(ulbtc)
 
 setInterval(addPrices, pricesInterval)
 setInterval(openExchangeRates, openExchangeRatesInterval, xch)
-setInterval(addLbtc, lbtcInterval, ulbtc)
+// setInterval(addLbtc, lbtcInterval, ulbtc)
 
